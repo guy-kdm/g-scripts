@@ -1,7 +1,7 @@
 {
   "name": "g-scripts",
   "bin": {
-    "git-feat": "./feature.js"
+    "git-feat": "./src/feature.js"
   },
   "version": "1.0.0",
   "description": "Convenience git scripts Edit",

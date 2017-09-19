@@ -15,8 +15,8 @@ const prefix =
 
 const branchName = `${prefix}/${name}`;
 
-console.log(`Checking ${branchName} from develop`);
-g.checkoutBranch(branchName, 'develop');
+console.log(`Branching to ${branchName}`);
+g.checkoutBranch(branchName);
 
 g.getRemotes(true, (err, remotes) =>
   remotes.map(({ name: remote }) => {
