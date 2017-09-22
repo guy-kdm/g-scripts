@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const g = require('simple-git')('/Users/guykedem/prj/pets/s-tests');
+const g = require('simple-git')('/Users/guykedem/prj/pets/m-tests');
 var argv = require('minimist')(process.argv.slice(2));
 
 const name = argv._[0];
@@ -8,6 +8,7 @@ if (!name) {
     `Please specify feature name and prefix (default prefix is 'feature')
     git feat [name] [-b (bug) | -c (CR) | -r (refactor)]`
   );
+  return;
 }
 
 const prefix =
@@ -38,7 +39,7 @@ g.getRemotes(true, (err, remotes) =>
       return;
     }
 
-    console.log(`Pushing ${branchName} to ${remote}.`);
-    g.push(remote, branchName);
+    console.log(`Setting ${branchName} in ${remote}.`);
+    g.push(remote, branchName, ['-u']);
   })
 );

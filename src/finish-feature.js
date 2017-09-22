@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // todo add compdef _git gf='git branch'
-const g = require('simple-git/promise')('/Users/guykedem/prj/pets/s-tests');
+const g = require('simple-git/promise')('/Users/guykedem/prj/pets/m-tests');
 const argv = require('minimist')(process.argv.slice(2));
 const inquirer = require('inquirer');
 
-const name = argv._[0] || 'feature/newone';
+const name = argv._[0] || 'feature/yab';
 
 (async () => {
   await g.checkout(name);
@@ -18,25 +18,27 @@ const name = argv._[0] || 'feature/newone';
   ]);
 
   if (shouldRebaseToSelf) {
-    await g.rebase(['-i', '--fork-point']);
+    const base = g.raw(['merge-base', '--fork-point', 'develop', name]);
+    console.log(base);
+    await g.rebase(['-i', base]);
     console.log('Commits Revision complete.');
   }
 
-  // Update develop
+  // update develop
   console.log(`Updating local develop branch.`);
   await g.checkout('develop');
-
-  // Since develop is a shared branch, user should not have changed it without pushing.
   await g.pull(['--ff-only']);
 
+  // rebasing to develop
   await g.checkout(name);
   await g.rebase(['develop']);
 
+  //todo open a pull request stead of merging
   console.log('Merging to develop...');
   await g.checkout('develop');
-  await g.merge([name, '--ff-only']);
+  await g.merge([name, '--no-ff']);
   await g.push();
 
-  // Deleting old branch
+  // deleting old branch
   await g.deleteLocalBranch(name).then(g.push('origin', name));
 })();
