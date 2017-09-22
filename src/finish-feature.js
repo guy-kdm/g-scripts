@@ -31,4 +31,12 @@ const name = argv._[0] || 'feature/newone';
 
   await g.checkout(name);
   await g.rebase(['develop']);
+
+  console.log('Merging to develop...');
+  await g.checkout('develop');
+  await g.merge([name, '--ff-only']);
+  await g.push();
+
+  // Deleting old branch
+  await g.deleteLocalBranch(name).then(g.push('origin', name));
 })();
