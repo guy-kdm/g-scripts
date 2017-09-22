@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const g = require('simple-git')();
+const g = require('simple-git')('/Users/guykedem/prj/pets/s-tests');
 var argv = require('minimist')(process.argv.slice(2));
 
 const name = argv._[0];
@@ -15,8 +15,21 @@ const prefix =
 
 const branchName = `${prefix}/${name}`;
 
-console.log(`Branching to ${branchName}`);
-g.checkoutBranch(branchName);
+// todo: warn if branch exists locally or just remotely, warn if no develop ext.
+// g.branch((err, branchSummery) => {
+//   console.log(branchSummery);
+//   const developBranchExists = branchSummery.all.includes('develop')
+//   if (!developBranchExists) {
+//     console.log('No develop branch exists, would you like to create it?')
+//   }
+// if ((branchSummery.current = 'master'))
+//   console.log(
+//     `You're currently on the master branch. Would you like to make a hotfix `
+//   );
+// });
+
+console.log(`Branching to ${branchName}.`);
+g.checkoutBranch(branchName, 'develop');
 
 g.getRemotes(true, (err, remotes) =>
   remotes.map(({ name: remote }) => {
